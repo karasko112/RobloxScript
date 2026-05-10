@@ -1,4 +1,3 @@
--- KARA HUB new gen
 local Players, RunService, UserInputService, Lighting, Stats, CoreGui =
     game:GetService("Players"), game:GetService("RunService"), game:GetService("UserInputService"),
     game:GetService("Lighting"), game:GetService("Stats"), game:GetService("CoreGui")
@@ -165,7 +164,7 @@ local PageW = createPage()
 local PageWM = createPage()
 local PageA = createPage()
 
--- Submenus
+
 local PopV, ScrollV = createSubMenu("ESP Config", 450)
 local PopC, ScrollC = createSubMenu("Aim Config", 350)
 local PopSpeed, ScrollSpeed = createSubMenu("Speed Config", 200)
@@ -200,7 +199,7 @@ local function addToggle(parent, text, defaultValue, callback, rightClickCallbac
     end)
     if rightClickCallback then
         button.MouseButton2Click:Connect(function()
-            rightClickCallback(button) -- передаём button для контекста (не используется)
+            rightClickCallback(button) 
         end)
     end
 end
@@ -618,7 +617,6 @@ end
 
 -- ==================== UI CONTENT ====================
 
--- Visuals Page
 addToggle(PageV, "ESP Master", false, function(v) Config.Visuals.Enabled = v end, function()
     if PopV.Visible then PopV.Visible = false; return end
     hidePopups()
@@ -668,7 +666,6 @@ addToggle(PageV, "Health Bars", false, function(value)
     end
 end)
 
--- Combat Page
 addToggle(PageC, "Aimbot (Hold RMB)", false, function(value) Config.Combat.Enabled = value end, function()
     if PopC.Visible then PopC.Visible = false; return end
     hidePopups()
@@ -701,7 +698,6 @@ addToggle(PageC, "Aimbot (Hold RMB)", false, function(value) Config.Combat.Enabl
     addSlider(ScrollC, "FOV Color B", 0, 255, Config.Combat.FOV_B, function(v) Config.Combat.FOV_B = v end, Color3.fromRGB(50, 150, 255))
 end)
 
--- Insta Heal / Wrench (оставляем в Combat)
 local InstaSection = Instance.new("Frame")
 InstaSection.Parent = PageC
 InstaSection.Size = UDim2.new(1, 0, 0, 100)
@@ -743,7 +739,6 @@ WrenchBtn.MouseButton1Click:Connect(function()
     else repairingActive = false; stopRepairing(); WrenchBtn.Text = "Insta Wrench" end
 end)
 
--- Movement Page
 addToggle(PageM, "Speed Boost", false, function(value) Config.Movement.SpeedEnabled = value end, function()
     if PopSpeed.Visible then PopSpeed.Visible = false; return end
     hidePopups()
@@ -790,15 +785,13 @@ addKeybind(PageM, "Noclip Key", Config.Movement.NoclipKey, function(key) Config.
 addToggle(PageM, "Z-Teleport", true, function(v) Config.Movement.TPOnZ = v end)
 addKeybind(PageM, "Teleport Key", Config.Movement.TeleportKey, function(key) Config.Movement.TeleportKey = key end)
 
--- World Page
 addToggle(PageW, "Freeze Custom Time", false, function(v) Config.World.TimeEnabled = v end)
 addSlider(PageW, "Clock Time", 0, 24, 12, function(v) Config.World.Time = v end)
 
--- Weapon Mods Page
 for modName, config in pairs(MOD_CONFIG) do
     addToggle(PageWM, config.display_name, false, function(state)
         ModStates[modName] = state
-        ApplyModifications() -- всегда применяем сразу
+        ApplyModifications() 
     end)
 end
 addToggle(PageWM, "Infinite Ammo", false, function(state)
@@ -817,7 +810,7 @@ addToggle(PageWM, "Infinite Ammo", false, function(state)
     end
 end)
 
--- Auras Page
+
 addToggle(PageA, "Medkit Aura", false, function(state)
     AuraSystem.MedkitAura.Enabled = state
     if state then StartMedkitAura() else StopMedkitAura() end
@@ -834,7 +827,6 @@ addToggle(PageA, "Pickaxe Aura", false, function(state)
 end)
 addSlider(PageA, "Pickaxe Rate (ms)", 1, 9000, 1, function(v) AuraSystem.PickaxeAura.AttackRate = v end, Color3.fromRGB(255, 0, 0))
 
--- Tabs
 local function addTab(name, page)
     local button = Instance.new("TextButton")
     button.Parent = NavBar
@@ -865,7 +857,6 @@ addTab("Weapon Mods", PageWM)
 addTab("Auras", PageA)
 PageV.Visible = true
 
--- Health bar functions
 local function createHealthBar(character)
     local humanoid = character:FindFirstChildOfClass("Humanoid")
     local head = character:FindFirstChild("Head")
@@ -1199,7 +1190,6 @@ UnloadButton.TextSize = 15
 Instance.new("UICorner", UnloadButton)
 addConnection(UnloadButton.MouseButton1Click:Connect(unloadHub))
 
--- Init
 for _, tool in ipairs(GetValidPlayerTools()) do SetupToolStructure(tool) end
 
-print("KARA HUB Loadded")
+print("KARA HUB LOADED")
